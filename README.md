@@ -38,7 +38,7 @@ git clone https://github.com/Aadii-01/Library-Books-Management-System.git
 ### 2. Navigation
 Navigate to the directory where the repository was cloned and install the necessary libraries:
   ```
-cd repository-name
+cd Library-Books-Management-System
   ```
 ### 3. Virtual environment setup (optional)
 Create a virtual environment:
@@ -67,7 +67,7 @@ python code.py
   ```
 
 ## That's It! 🎉
-Thank you for checking out this project!. If you have any questions, suggestions, or issues, feel free to open an issue or reach out.<br>
+Thank you for checking out this project!. If you have any questions, suggestions, feel free to open an issue or reach out.<br>
 If you’d like to contribute, feel free to fork the repo and submit a pull request. All contributions are welcome! 😊
 <br>
 
