@@ -15,25 +15,26 @@ print("Myself Aaditya Shirke from Class 12th of Atomic Energy Central School No.
 print("I have tried to ease the work of a hostel librarian , hope you like it :)\n\n")
 
 # IMPORTANT TO EDIT THE PATH DURING PROGRAM DISPLAY IN FRONT OF TEACHER
-file = open("Booksdata.csv", "a")
-wr = csv.writer(file)
-# POPULAR BOOKS AMONGST PUBLIC DURING LAST MONTH
-h = ["Bookname", "Writer", "Cost", "Total Pages", "InStock"]
-popular_books = [["Ghosts of the Silent Hills ", "Anita Krishan", "550", "256", "150"],
-                 ["Watership down", "Richard Adams", "650", "748", "320"],
-                 ["Game of Thrones", "George Martin", "4197", "3473", "10"],
-                 ["Alchemist", "Paulo Coelho", "387", "224", "242"],
-                 ["Darkness", "Ratnakar Matkari", "650", "452", "187"],
-                 ["The Elementals", "Michel McDowells", "680", "765", "135"],
-                 ["Burnt Offerings", "Robert Marasco", "540", "234", "320"],
-                 ["Start with Why", "Simon Sinek", "360", "256", "188"],
-                 ["Indian Polity", "M Laxmikanth", "576", "824", "150"],
-                 ["You Can", "George Adam", "99", "130", "135"],
-                 ["Concept of Physics 1", "H.C.Verma", "359", "462", "320"]]
-wr.writerow(h)
-for i in popular_books:
-    wr.writerow(i)
-file.close()
+with open("Booksdata.csv", "a", newline="") as file:
+    writer = csv.writer(file)
+    # Header and popular books data
+    header = ["Bookname", "Writer", "Cost", "Total Pages", "InStock"]
+    popular_books = [
+        ["Ghosts of the Silent Hills", "Anita Krishan", "550", "256", "150"],
+        ["Watership Down", "Richard Adams", "650", "748", "320"],
+        ["Game of Thrones", "George Martin", "4197", "3473", "10"],
+        ["Alchemist", "Paulo Coelho", "387", "224", "242"],
+        ["Darkness", "Ratnakar Matkari", "650", "452", "187"],
+        ["The Elementals", "Michel McDowell", "680", "765", "135"],
+        ["Burnt Offerings", "Robert Marasco", "540", "234", "320"],
+        ["Start with Why", "Simon Sinek", "360", "256", "188"],
+        ["Indian Polity", "M Laxmikanth", "576", "824", "150"],
+        ["You Can", "George Adam", "99", "130", "135"],
+        ["Concept of Physics 1", "H.C. Verma", "359", "462", "320"]
+    ]
+    # Write the header and book data to the file
+    writer.writerow(header)
+    writer.writerows(popular_books)
 
 while True:
     process = int(input("\nWhat Do you want to do?"
@@ -76,8 +77,7 @@ while True:
                     for i in data:
                         list_of_sections.append(i)
                         print(str(i))
-                    if not list_of_sections:
-                        print("This database has no sections , go back and create one !!")
+                    if not list_of_sections: print("This database has no sections , go back and create one !!")
                     else:
                         table_name = input("** Enter table name to be operated ---> ")
                         x = input("Do you want to add Dummy Data to ur table? (y/n) ---> ")
@@ -87,8 +87,7 @@ while True:
                                 value = tuple(i)
                                 cur.execute(query, value)
                                 cnx.commit()
-                        elif x.lower() == "n":
-                            pass
+                        elif x.lower() == "n": pass
                         while True:
                             status = input("\n\nContinue with operations ?? (y/n) ----> ").lower()
                             if status == "y":
@@ -124,12 +123,11 @@ while True:
                                         cnx.commit()
                                         print("=> Values have been inserted succesfully !!")
                                         R.append(list(values))
-                                    datum_file = open("Datum.csv", "w")
-                                    wrtr = csv.writer(datum_file)
-                                    heading = ["Bookname", "Writer", "Cost", "Total Pages", "InStock"]
-                                    wrtr.writerow(heading)
-                                    for i in R: wrtr.writerow(i)
-                                    datum_file.close()
+                                    with open("Datum.csv", "w") as datum_file:
+                                        wrtr = csv.writer(datum_file)
+                                        heading = ["Bookname", "Writer", "Cost", "Total Pages", "InStock"]
+                                        wrtr.writerow(heading)
+                                        for i in R : wrtr.writerow(i)
                                 elif opr == 2:
                                     cur.execute(f"select * from {table_name}")
                                     data = cur.fetchall()
@@ -253,94 +251,79 @@ while True:
         print("Here we have multiple types of categories of Books ")
         print("Here is the list of books we have right now")
 
-        print("\nI} BOOKS ON DRAMA:--> ")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books1 = [["I'm Your Huckleberry ", "Val Kilmer"],
+        #Function to display books in prettytable format
+        def display_books(category, books):
+            table = PrettyTable()
+            table.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
+            for book in books:
+                table.add_row(book)
+            print(f"\n{category}")
+            print(table)
+
+        #Various categorised books
+        categories_books = {
+            "I} BOOKS ON DRAMA" : [
+                  ["I'm Your Huckleberry ", "Val Kilmer"],
                   ["Walking With Ghosts", "Gabriel Byrne"],
                   ["Forever Young", "Hayley Mills"],
                   ["Will, AKA Where There's a Way", "Will Smith"],
                   ["Things I Should Have Said ", "Jamie Lynn Spears"],
-                  ["The Great Peace", "Mena Suvari"]]
-        for i in Books1:
-            y.add_row(i)
-        print(y)
-
-        print("\n\nII} BOOKS ON LITERATURE")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books2 = [["Istanbul: Memories and the City", "Orhan Pamuk"],
-                  ["A Writer's Life ", "Gay Talese"],
-                  ["More About Boy ", "Roald Dahl"],
-                  ["Jacky Daydream & My Secret Diary", "Jacqueline Wilson"],
-                  ["Once in a House on Fire", "Andrea Ashworth"],
-                  ["Turning Point in My Life", "Paul Kipchumb"]]
-        for i in Books2:
-            y.add_row(i)
-        print(y)
-
-        print("\n\nIII} GREAT HITS OF THEIR TIME")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books3 = [["The Golden Notebook", "Doris Lessing"],
-                  ["The Catcher in the Rye", "J. D. Salinger"],
-                  ["Red Harvest", "Dashiell Hammett"],
-                  ["What We Talk About When We Talk About Love", "Raymond Carver"],
-                  ["Dubliners", "James Joyce "],
-                  ["Cane", "Jean Toomer"]]
-        for i in Books3:
-            y.add_row(i)
-        print(y)
-
-        print("\n\nIV} POPULAR HARRY POTTER SERIES BY J.K.ROWLING")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books4 = [["Harry Potter and the Sorcerer’s Stone (I)", "|"],
-                  ["Harry Potter and the Chamber of Secrets (II)", "|"],
-                  ["Harry Potter and the Prisoner of Azkaban (III)", "|"],
-                  ["Harry Potter and the Goblet of Fire (IV)", "} J.K.ROWLING"],
-                  ["Harry Potter and the Order of the Phoenix (V)", "|"],
-                  ["Harry Potter and the Half-Blood Prince (VI)", "|"],
-                  ["Harry Potter and the Deathly Hallows (VII)", "|"],
-                  ["Harry Potter and the Cursed Child (VIII)", "|"]]
-        for i in Books4:
-            y.add_row(i)
-        print(y)
-
-        print("\n\nV} BEST BOOKS FOR COLLEGE STUDENTS")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books5 = [["How To Win At College", "Cal Newport"],
-                  ["10 Steps To Earning Awesome Grades", "Thomas Frank"],
-                  ["How To Win Friends And Influence People", "Dale Carnegie"],
-                  ["Deep Work", "Cal Newport"],
-                  ["To Kill a Mocking Bird", "Harper Lee"],
-                  ["Atomic Habits", "James Clear"],
-                  ["The 7 Habits of Highly Effective People", "Stephen.R.Covey"],
-                  ["The Monk Who Sold His Ferrari", "Robin Sharma"],
-                  ["The Power of Now", "Eckhart Tolle"]]
-        for i in Books5:
-            y.add_row(i)
-        print(y)
-
-        print("\n\nVI} POPULAR INDIAN BOOKS")
-        y = PrettyTable()
-        y.field_names = ["BOOK NAME", "AUTHOR'S NAME"]
-        Books6 = [["White Tiger", "Arvind Adiga"],
-                  ["The Great Indian Novel", "Shashi Tharoor"],
-                  ["Train to Pakistan", "Khushwant Singh"],
-                  ["Malgudi Days", "R.K Narayan"],
-                  ["Chanakya's Chant", "Ashwin Sanghi"],
-                  ["Sacred Games", "Vikram Chandra"],
-                  ["Byomkesh Bakshi(series)", "Sharadindu Bandopadhyay"],
-                  ["The Devourers", "Indra Das"],
-                  ["Alice in Deadland", "Mainak Dhar"],
-                  ["Wings Of Fire", "A.P.J. Abdul Kalam"],
-                  ["The Accidental PM", "Sanjaya Baru"],
-                  ["Habit of winning", "Prakash Iyer"]]
-        for i in Books6:
-            y.add_row(i)
-        print(y)
+                  ["The Great Peace", "Mena Suvari"],
+            ],
+            "II} BOOKS ON LITERATURE" : [
+                      ["Istanbul: Memories and the City", "Orhan Pamuk"],
+                      ["A Writer's Life ", "Gay Talese"],
+                      ["More About Boy ", "Roald Dahl"],
+                      ["Jacky Daydream & My Secret Diary", "Jacqueline Wilson"],
+                      ["Once in a House on Fire", "Andrea Ashworth"],
+                      ["Turning Point in My Life", "Paul Kipchumb"],
+            ],
+            "III} GREAT HITS OF THEIR TIME" : [
+                ["The Golden Notebook", "Doris Lessing"],
+                      ["The Catcher in the Rye", "J. D. Salinger"],
+                      ["Red Harvest", "Dashiell Hammett"],
+                      ["What We Talk About When We Talk About Love", "Raymond Carver"],
+                      ["Dubliners", "James Joyce "],
+                      ["Cane", "Jean Toomer"],
+            ],
+            "IV} POPULAR HARRY POTTER SERIES BY J.K.ROWLING" : [
+                      ["Harry Potter and the Sorcerer’s Stone (I)", "J.K.ROWLING"],
+                      ["Harry Potter and the Chamber of Secrets (II)", "J.K.ROWLING"],
+                      ["Harry Potter and the Prisoner of Azkaban (III)", "J.K.ROWLING"],
+                      ["Harry Potter and the Goblet of Fire (IV)", "J.K.ROWLING"],
+                      ["Harry Potter and the Order of the Phoenix (V)", "J.K.ROWLING"],
+                      ["Harry Potter and the Half-Blood Prince (VI)", "J.K.ROWLING"],
+                      ["Harry Potter and the Deathly Hallows (VII)", "J.K.ROWLING"],
+                      ["Harry Potter and the Cursed Child (VIII)", "J.K.ROWLING"],
+            ],
+            "V} BEST BOOKS FOR COLLEGE STUDENTS" : [
+                ["How To Win At College", "Cal Newport"],
+                      ["10 Steps To Earning Awesome Grades", "Thomas Frank"],
+                      ["How To Win Friends And Influence People", "Dale Carnegie"],
+                      ["Deep Work", "Cal Newport"],
+                      ["To Kill a Mocking Bird", "Harper Lee"],
+                      ["Atomic Habits", "James Clear"],
+                      ["The 7 Habits of Highly Effective People", "Stephen.R.Covey"],
+                      ["The Monk Who Sold His Ferrari", "Robin Sharma"],
+                      ["The Power of Now", "Eckhart Tolle"],
+            ],
+            "VI} POPULAR INDIAN BOOKS" : [
+                      ["White Tiger", "Arvind Adiga"],
+                      ["The Great Indian Novel", "Shashi Tharoor"],
+                      ["Train to Pakistan", "Khushwant Singh"],
+                      ["Malgudi Days", "R.K Narayan"],
+                      ["Chanakya's Chant", "Ashwin Sanghi"],
+                      ["Sacred Games", "Vikram Chandra"],
+                      ["Byomkesh Bakshi(series)", "Sharadindu Bandopadhyay"],
+                      ["The Devourers", "Indra Das"],
+                      ["Alice in Deadland", "Mainak Dhar"],
+                      ["Wings Of Fire", "A.P.J. Abdul Kalam"],
+                      ["The Accidental PM", "Sanjaya Baru"],
+                      ["Habit of winning", "Prakash Iyer"],
+            ]
+        }
+        for category, books in categories_books.items():
+            display_books(category, books)
 
         print("\n\nOk before issuing books, confirm me your name , your room number and your year of college going on !!")
         issuer_name = input("** So,let me know your name---> ")
@@ -348,6 +331,10 @@ while True:
         issuer_college_year = input("** Your college year ?---> ")
         print("Ok, u can proceed now :)")
         print("\nWhat do you want to do ?")
+
+        #Function to display the names of the books issued
+        def display_issued_books(book_category, index):
+            print(categories_books[book_category][index - 1][0])
 
         optional_query = 1
         if optional_query == 1:
@@ -358,67 +345,15 @@ while True:
                 book_no = input("Enter the Book no. you want to issue --->")
                 issued_books.append([category_no.upper(), book_no])
             print("\n=> Here are the books you have issued :- ")
+
             for books in issued_books:
                 match books[0]:
-                    case "I":
-                        match books[1]:
-                            case "1": print(Books1[0][0])
-                            case "2": print(Books1[1][0])
-                            case "3": print(Books1[2][0])
-                            case "4": print(Books1[3][0])
-                            case "5": print(Books1[4][0])
-                            case "6": print(Books1[5][0])
-                    case "II":
-                        match books[1]:
-                            case "1": print(Books2[0][0])
-                            case "2": print(Books2[1][0])
-                            case "3": print(Books2[2][0])
-                            case "4": print(Books2[3][0])
-                            case "5": print(Books2[4][0])
-                            case "6": print(Books2[5][0])
-                    case "III":
-                        match books[1]:
-                            case "1": print(Books3[0][0])
-                            case "2": print(Books3[1][0])
-                            case "3": print(Books3[2][0])
-                            case "4": print(Books3[3][0])
-                            case "5": print(Books3[4][0])
-                            case "6": print(Books3[5][0])
-                    case "IV":
-                        match books[1]:
-                            case "1": print(Books4[0][0])
-                            case "2": print(Books4[1][0])
-                            case "3": print(Books4[2][0])
-                            case "4": print(Books4[3][0])
-                            case "5": print(Books4[4][0])
-                            case "6": print(Books4[5][0])
-                            case "7": print(Books4[6][0])
-                            case "8": print(Books4[7][0])
-                    case "V":
-                        match books[1]:
-                            case "1": print(Books5[0][0])
-                            case "2": print(Books5[1][0])
-                            case "3": print(Books5[2][0])
-                            case "4": print(Books5[3][0])
-                            case "5": print(Books5[4][0])
-                            case "6": print(Books5[5][0])
-                            case "7": print(Books5[6][0])
-                            case "8": print(Books5[7][0])
-                            case "9": print(Books5[8][0])
-                    case "VI":
-                        match books[1]:
-                            case "1": print(Books6[0][0])
-                            case "2": print(Books6[1][0])
-                            case "3": print(Books6[2][0])
-                            case "4": print(Books6[3][0])
-                            case "5": print(Books6[4][0])
-                            case "6": print(Books6[5][0])
-                            case "7": print(Books6[6][0])
-                            case "8": print(Books6[7][0])
-                            case "9": print(Books6[8][0])
-                            case "10": print(Books6[9][0])
-                            case "11": print(Books6[10][0])
-                            case "12": print(Books6[11][0])
+                    case "I": display_issued_books("I} BOOKS ON DRAMA", int(books[1]))
+                    case "II": display_issued_books("II} BOOKS ON LITERATURE", int(books[1]))
+                    case "III": display_issued_books("III} GREAT HITS OF THEIR TIME", int(books[1]))
+                    case "IV": display_issued_books("IV} POPULAR HARRY POTTER SERIES BY J.K.ROWLING", int(books[1]))
+                    case "V": display_issued_books("V} BEST BOOKS FOR COLLEGE STUDENTS", int(books[1]))
+                    case "VI": display_issued_books("VI} POPULAR INDIAN BOOKS", int(books[1]))
 
             issuer_data = [issuer_name, issuer_room_no, issuer_college_year, issued_books]
             issuance_data = open("ISSUANCEDATA.csv", "a")
